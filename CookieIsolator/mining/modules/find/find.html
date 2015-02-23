@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="modules/find/find.css">
+<div ng-controller="FindController">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <label class="control-label">Name</label>
+            <input type="text" class="form-control" ng-model="cookieName" ng-keyup="$event.keyCode == 13 ? find() : null" placeholder="Name">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Value</label>
+            <input type="text" class="form-control" ng-model="cookieValue" ng-keyup="$event.keyCode == 13 ? find() : null" placeholder="Value">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Domain</label>
+            <input type="text" class="form-control" ng-model="cookieDomain" ng-keyup="$event.keyCode == 13 ? find() : null" placeholder="Domain">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Path</label>
+            <input type="text" class="form-control" ng-model="cookiePath" ng-keyup="$event.keyCode == 13 ? find() : null" placeholder="Path">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="cookieIsSecure"><span style="margin-left: 3px;">Is Secure</span>
+            </label>
+        </div>
+    </form>
+    <button class="btn btn-default" type="button" ng-click="find()">Find</button>
+    <button class="btn btn-default disabled" type="button" ng-click="add()">Add</button>
+    <button class="btn btn-default disabled" type="button" ng-click="remove()">Remove</button>
+    <button class="btn btn-default" type="button" ng-click="reset()">Reset</button>
+    <label>
+        <input type="radio" ng-model="matchType" value="absolute"><span style="margin-left: 3px; margin-right: 5px;">Absolute</span>
+    </label>
+    <label>
+        <input type="radio" ng-model="matchType" value="partial"><span style="margin-left: 3px; margin-right: 5px;">Partial</span>
+    </label>
+    <label>
+        <input type="radio" ng-model="matchType" value="regex"><span style="margin-left: 3px; margin-right: 5px;">Regex</span>
+    </label>
+    <div>
+        Total: {{cookieCount}}
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <th>name</th>
+            <th>domain</th>
+            <th>path</th>
+            <th>secure</th>
+            <th>value</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="cookie in cookies">
+                <td>{{cookie.name}}</td>
+                <td>{{cookie.domain}}</td>
+                <td>{{cookie.path}}</td>
+                <td>{{cookie.secure}}</td>
+                <td>{{cookie.value}}</td>
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,36 @@
+<html>
+<head> <title> About CookieIsolator </title>
+<body>
+<h1>CookieIsolator</h1>
+<hr />
+
+<h2>Separating HTTP and HTTPS cookies </h2>
+
+<h3> 1. Isolation Policy </h3>
+
+<ul>
+  <li>  Disable: Disable cookie isolation. </li>
+  <li>  Basic Isolation: Isolate HTTP and HTTPS cookies without blocking. </li>
+  <li>  Loose Isolation: HTTP cookies can only be sent in HTTP channel while HTTPS cookies can be sent in both HTTP (without secure flag) and HTTPS channel. </li>
+  <li>  Strict Isolation: HTTP cookies and HTTPS cookies can only be sent in HTTP and HTTPS channel separately. </li>
+  <li>  Ext Secure Flag: Assure the integrity of cookies with secure flag:
+      <ul> 
+        <li> Cookie secure flag cannot be set in HTTP channel; </li>
+        <li> Cookie with secure flag will not be shadowed by cookie who has a same name but does not have secure flag. </li>
+      </ul>
+  </li>
+
+</ul>
+<h3> 2. Cookie Priority  </h3>
+<ul>
+  <li>   HTTP First: In "Cookie" header, HTTP cookies are put in front of HTTPS cookies.  </li>
+  <li>   HTTPS First: In "Cookie" header, HTTPS cookies are put in front of HTTP cookies. </li>
+</ul>
+<h3> 3. Management </h3>
+<ul>
+  <li>  Clear All: Clear all the cookies in storage. </li>
+  <li>    Clear Session: Clear all non-persistent cookies in storage. </li>
+  <li>    Report Error  </li>
+</ul>
+</body>
+</html>

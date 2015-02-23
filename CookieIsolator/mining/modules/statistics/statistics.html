@@ -1,0 +1,277 @@
+<link rel="stylesheet" href="modules/statistics/statistics.css">
+<div ng-controller="StatisticsController">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                        <input type="text" ng-keyup="$event.keyCode == 13 ? addCustomDomain() : null" class="form-control" ng-model="customDomain" placeholder="Custom Domain">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="addCustomDomain()">Add</button>
+                            <button class="btn btn-default" type="button" ng-click="openAlexaImporter()">Alexa</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="task-table table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="col-lg-1 text-center">
+                            Domain
+                        </th>
+                        <th rowspan="2" class="col-lg-1 text-center">
+                            Total
+                        </th>
+                        <th colspan="4" class="col-lg-4 text-center">
+                            Path
+                        </th>
+                        <th colspan="2" class="col-lg-2 text-center">
+                            Domain
+                        </th>
+                        <th colspan="4" class="col-lg-2 text-center">
+                            Flag
+                        </th>
+                        <th rowspan="2" class="col-lg-2">
+                            <span ng-click="removeAllTasks()" class="img-button glyphicon glyphicon-trash col-lg-2"></span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="col-lg-1 text-center">
+                            Root
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Slash-Ending
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Non-Slash-Ending
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Resource 
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Wildcard
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Non-Wildcard
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Secure
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            HttpOnly
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            HostOnly
+                        </th>
+                        <th class="col-lg-1 text-center">
+                            Session
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="task in tasks">
+                        <td class="col-lg-1">
+                            {{task.domain==''?'ALL':task.domain}}
+                        </td>
+                        <td class="col-lg-1 detail-area" ng-click="openCookieDetail(task, 'totalCookies')">
+                            {{task.totalCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.rootPathCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'rootPathCookies')">
+                            {{task.rootPathCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.backslashEndingPathCookiesCount>0?'success':''}}" ng-click="openCookieDetail(task, 'backslashEndingPathCookies')">
+                            {{task.backslashEndingPathCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.nonBackslashEndingPathCookiesCount>0?'danger':''}}" ng-click="openCookieDetail(task, 'nonBackslashEndingPathCookies')">
+                            {{task.nonBackslashEndingPathCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.resourcePathCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'resourcePathCookies')">
+                            {{task.resourcePathCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.wildcardDomainCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'wildcardDomainCookies')">
+                            {{task.wildcardDomainCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.nonWildcardDomainCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'nonWildcardDomainCookies')">
+                            {{task.nonWildcardDomainCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.secureCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'secureCookies')">
+                            {{task.secureCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.httpOnlyCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'httpOnlyCookies')">
+                            {{task.httpOnlyCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.hostOnlyCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'hostOnlyCookies')">
+                            {{task.hostOnlyCookiesCount}}
+                        </td>
+                        <td class="col-lg-1 detail-area {{task.sessionCookiesCount>0?'warning':''}}" ng-click="openCookieDetail(task, 'sessionCookies')">
+                            {{task.sessionCookiesCount}}
+                        </td>
+                        <td class="col-lg-2">
+                            <span ng-click="removeTask(task)" class="domain-button img-button glyphicon glyphicon-remove col-lg-1"></span>
+                            <span ng-click="openTaskSite(task)" class="domain-button img-button glyphicon glyphicon-log-in col-lg-1"></span>
+                            <span ng-click="openTaskReport(task)" class="domain-button img-button glyphicon glyphicon-eye-open col-lg-1"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="text/ng-template" id="customImporter.html">
+        <div class="modal-header window-header">
+            <div class="row window-header-bar">
+                <div class="col-lg-11">
+                </div>
+                <span ng-click="cancelCustomImporter()" class="img-button glyphicon glyphicon-remove col-lg-1"></span>
+            </div>
+            <h3 class="modal-title">Custom Domain</h3>
+        </div>
+        <div class="modal-body">
+            <input type="text" class="form-control" ng-model="customDomain">
+            <button type="button" ng-click="addCustomDomain()" class="btn btn-default">Add</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="taskReport.html">
+        <div ng-init="drawReport()" class="modal-header window-header">
+            <div class="row window-header-bar">
+                <div class="col-lg-11">
+                </div>
+                <span ng-click="cancelTaskReport()" class="img-button glyphicon glyphicon-remove col-lg-1"></span>
+            </div>
+            <h3 class="modal-title">Cookie Report: {{task.domain}}</h3>
+        </div>
+        <div class="modal-body">
+            <div id='root_result'></div>
+            <div id='non_backslash_ending_result'></div>
+            <div id='wildcard_domain_result'></div>
+            <div id='resource_path_cookie_result'></div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="cookieDetail.html">
+        <div class="modal-header window-header">
+            <div class="row window-header-bar">
+                <div class="col-lg-11">
+                </div>
+                <span ng-click="cancelCookieDetail()" class="img-button glyphicon glyphicon-remove col-lg-1"></span>
+            </div>
+            <h3 class="modal-title">Cookie Detail: {{type}} in {{domain}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center col-lg-2">name</th>
+                                <th class="text-center col-lg-2">domain</th>
+                                <th class="text-center col-lg-1">path</th>
+                                <th class="text-center col-lg-1">expirationDate</th>
+                                <th class="text-center col-lg-1">hostOnly</th>
+                                <th class="text-center col-lg-1">httpOnly</th>
+                                <th class="text-center col-lg-1">secure</th>
+                                <th class="text-center col-lg-1">session</th>
+                                <th class="text-center col-lg-2">value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cookie in cookies">
+                                <td class="col-lg-2">{{cookie.name}}</td>
+                                <td class="col-lg-2">{{cookie.domain}}</td>
+                                <td class="col-lg-1">{{cookie.path}}</td>
+                                <td class="col-lg-1">{{cookie.expirationDate}}</td>
+                                <td class="col-lg-1">{{cookie.hostOnly}}</td>
+                                <td class="col-lg-1">{{cookie.httpOnly}}</td>
+                                <td class="col-lg-1">{{cookie.secure}}</td>
+                                <td class="col-lg-1">{{cookie.session}}</td>
+                                <td class="col-lg-2">{{cookie.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="alexaImporter.html">
+        <div class="modal-header window-header">
+            <div class="row window-header-bar">
+                <div class="col-lg-11">
+                </div>
+                <span ng-click="cancelAlexaImporter()" class="img-button glyphicon glyphicon-remove col-lg-1"></span>
+            </div>
+            <h3 class="modal-title">Alexa Top Sites</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="pager alexa-pager">
+                        <li class="previous {{ ui.prevBlocking }}" ng-click="alexaPreviousPage()"><a href="#">Prev</a></li>
+                        <a>{{ params.pageNumber }}</a>
+                        <li class="next {{ ui.nextBlocking }}" ng-click="alexaNextPage()"><a href="#">{{ ui.nextButtonText }}</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="pager alexa-pager">
+                        <li class="next" ng-click="saveSelectedDomains()"><a href="#">Save</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center col-lg-2">NO.</th>
+                                <th class="text-center col-lg-10">
+                                    <div class="col-lg-10 text-center">
+                                        Domain
+                                    </div>
+                                    <span ng-click="addAllDomains()" class="img-button glyphicon glyphicon-transfer col-lg-2"></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="site in alexaSites">
+                                <td class="col-lg-2">
+                                    {{ site.number }}
+                                </td>
+                                <td class="col-lg-10">
+                                    <div class="col-lg-10">
+                                        {{ site.domain }}
+                                    </div>
+                                    <span ng-click="addSelectedDomains(site.domain)" class="img-button glyphicon glyphicon-arrow-right col-lg-2"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="col-lg-10 text-center">
+                                        Task
+                                    </div>
+                                    <span ng-click="removeAllSelectedDomains()" class="img-button glyphicon glyphicon-trash col-lg-2"></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="domain in selectedDomains">
+                                <td>
+                                    <div class="col-lg-10">
+                                        {{ domain }}
+                                    </div>
+                                    <span ng-click="removeSelectedDomain(domain)" class="img-button glyphicon glyphicon-remove col-lg-2"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </script>
+</div>

@@ -1,0 +1,35 @@
+<html ng-app="CookieMining">
+    <head>
+        <title>{{ header }}</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <!-- frameworks -->
+        <script src="lib/jquery/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+        <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="lib/highcharts/highcharts.js"></script>
+
+        <!-- modules -->
+        <script src="modules/modules.js"></script>
+        <script src="modules/find/find.js"></script>
+        <script src="modules/statistics/statistics.js"></script>
+
+        <!-- app js -->
+        <script src="app/main.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div ng-controller="MiningController">
+                <div class="header">
+                    <h2>{{ header }}</h2>
+                </div>
+                <tabset>
+                    <tab ng-repeat="module in modules" heading="{{module.title}}" active="module.active" disabled="module.disabled" style="cursor: pointer;">
+                        <div class="slide-animate" ng-include="module.url"></div>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </body>
+</html>

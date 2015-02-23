@@ -1,0 +1,2 @@
+var CookieMining = {};
+CookieMining.modules = [];

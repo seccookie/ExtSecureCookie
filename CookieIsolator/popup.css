@@ -1,0 +1,45 @@
+@font-face {
+    font-family: DroidSans; 
+    src: url('DroidSans.ttf');
+}
+@font-face {
+    font-family: DroidSans; 
+    font-weight: bold;
+    src: url('DroidSans-Bold.ttf');
+}
+
+body {
+    background-color: #ffffff;
+    font: menu;
+    font-size: 9pt;
+    white-space: nowrap;
+}
+
+.menu {
+  margin: 0px, 0px;
+  border-bottom: 1px solid #888888;
+}
+
+.menu .item {
+  margin:  0px, 0px;
+  border: solid 1px #FFFFFF;
+  color: #555555;
+}
+
+.menu .item:hover {
+    margin:  0px, 0px;
+    border: solid 1px #bcd;
+    background-color: #eeeeee;
+}
+
+.separator {
+    height: 20px;
+    margin-top: 8px;
+    margin: 0px, 0px;
+    border: 0;
+    border-bottom: 1px dashed #cccccc;
+    text-align: center;
+    color: #4444aa;
+    font-weight: bold;
+    font-size: 11pt;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "CookieIsolator-Ext",
+  "version": "1.1",
+  "description": "enhancing cookie integrity",
+  "permissions": ["webRequest", "webRequestBlocking", "storage",
+                  "http://*/", "https://*/", "cookies"
+                  ],
+  "background": {
+    "scripts": ["public_suffix.js", "url_parser.js", "policy.js", "cookie_manager.js", "background.js"]//, "mining/background.js" ] (collision in chrome storage, so disable it temporarily)
+  },
+
+  "browser_action": {
+      "default_icon": "images.png",
+      "default_popup": "popup.html",
+      "default_title": "Cookie Isolator Ext"
+  },
+
+  "manifest_version": 2
+}
